@@ -80,10 +80,31 @@ class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate,
       annotationView!.leftCalloutAccessoryView = UIImageView(frame: CGRect(x:0, y:0, width: 50, height:50))
     }
     
+    let resizeRenderImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 45, height: 45))
+    resizeRenderImageView.layer.borderColor = UIColor.white.cgColor
+    resizeRenderImageView.layer.borderWidth = 3.0
+    resizeRenderImageView.contentMode = .scaleAspectFit
+    resizeRenderImageView.image = pickedImage
+    
+    
+    UIGraphicsBeginImageContext(resizeRenderImageView.frame.size)
+    resizeRenderImageView.layer.render(in: UIGraphicsGetCurrentContext()!)
+    let thumbnail = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    annotationView?.image = thumbnail
+    
+    annotationView?.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure)
+    
+    
     let imageView = annotationView?.leftCalloutAccessoryView as! UIImageView
-    imageView.image = pickedImage
+    imageView.image = thumbnail
     
     return annotationView
   }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        performSegue(withIdentifier: "fullImageSegue", sender: self)
+    }
   
 }
