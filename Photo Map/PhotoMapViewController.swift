@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import MapKit
+
 
 class PhotoMapViewController: UIViewController {
 
+  @IBOutlet weak var mapView: MKMapView!
+  
+  
+  
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+      let sfRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(37.783333, -122.416667),
+                                            MKCoordinateSpanMake(0.1, 0.1))
+      mapView.setRegion(sfRegion, animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,6 +29,9 @@ class PhotoMapViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+  @IBAction func onCameraBtn(_ sender: Any) {
+    
+  }
 
     
     // MARK: - Navigation
