@@ -10,11 +10,9 @@ import UIKit
 import MapKit
 
 
-class PhotoMapViewController: UIViewController {
+class PhotoMapViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
   @IBOutlet weak var mapView: MKMapView!
-  
-  
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,9 +28,21 @@ class PhotoMapViewController: UIViewController {
     }
     
   @IBAction func onCameraBtn(_ sender: Any) {
+    let vc = UIImagePickerController()
+    vc.delegate = self
+    vc.allowsEditing = true
+    vc.sourceType = UIImagePickerControllerSourceType.photoLibrary
     
+    self.present(vc, animated: true, completion: nil)
   }
-
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let originalImage = info[UIImagePickerControllerOriginalImage] as! UIImage
+        
+        dismiss(animated: true) {
+            self.performSegue(withIdentifier: "tagSegue", sender: self)
+        }
+    }
     
     // MARK: - Navigation
 
